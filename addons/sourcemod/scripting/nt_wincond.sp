@@ -5,7 +5,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define PLUGIN_VERSION "0.0.6"
+#define PLUGIN_VERSION "0.0.5.fix"
 
 #define GAMEHUD_TIE 3
 #define GAMEHUD_JINRAI 4
@@ -183,7 +183,7 @@ bool CheckEliminationOrTimeout() {
 
     // Check elimination
     if (aliveNsf == 0 && aliveJinrai == 0) {
-        HandleTie();
+        EndRound(GAMEHUD_TIE);
         return true;
     }
     if (aliveNsf == 0) {
@@ -220,36 +220,24 @@ bool CheckEliminationOrTimeout() {
         }
         
         if (g_cvTieBreaker.IntValue == 2 || g_cvTieBreaker.IntValue == 3) {
-            DefendingTeamWin();
+            // Reward defending team
+            int m_iAttackingTeam = GameRules_GetProp("m_iAttackingTeam");
+            if (m_iAttackingTeam == TEAM_NSF || (g_cvSwapAttackers && m_iAttackingTeam == TEAM_JINRAI)) {
+                RewardWin(TEAM_JINRAI);
+                EndRound(GAMEHUD_JINRAI);
+            } else {
+                RewardWin(TEAM_NSF);
+                EndRound(GAMEHUD_NSF);
+            }
             return true;
         }
 
         // Always tie
-        HandleTie();
+        EndRound(GAMEHUD_TIE);
         return true;
     }
 
     return false;
-}
-
-void HandleTie() {
-    if (g_cvTieBreaker.IntValue == 0 || g_cvTieBreaker.IntValue == 1) {
-	    EndRound(GAMEHUD_TIE);
-	} else if (g_cvTieBreaker.IntValue == 2 || g_cvTieBreaker.IntValue == 3) {
-	    DefendingTeamWin();
-	}
-}
-
-void DefendingTeamWin() {
-    // Reward defending team
-    int m_iAttackingTeam = GameRules_GetProp("m_iAttackingTeam");
-    if (m_iAttackingTeam == TEAM_NSF || (g_cvSwapAttackers && m_iAttackingTeam == TEAM_JINRAI)) {
-        RewardWin(TEAM_JINRAI);
-        EndRound(GAMEHUD_JINRAI);
-    } else {
-        RewardWin(TEAM_NSF);
-        EndRound(GAMEHUD_NSF);
-    }
 }
 
 bool CheckGhostCap() {
