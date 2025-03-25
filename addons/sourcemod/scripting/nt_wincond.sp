@@ -5,7 +5,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define PLUGIN_VERSION "0.0.11"
+#define PLUGIN_VERSION "0.0.12"
 
 #define GAMEHUD_TIE 3
 #define GAMEHUD_JINRAI 4
@@ -30,6 +30,7 @@ ConVar g_cvConsolationRounds;
 ConVar g_cvSurvivorBonus;
 ConVar g_cvGhostReward;
 ConVar g_cvGhostRewardDead;
+ConVar g_cvGhostHoldReward;
 
 ConVar g_cvHalfTimeEnabled;
 ConVar g_cvRoundLimit;
@@ -51,6 +52,7 @@ public void OnPluginStart() {
     g_cvSurvivorBonus = CreateConVar("sm_nt_wincond_survivor_bonus", "1", "Whether survivors on the winning team should receive extra xp. Note that disabling this will treat everyone as alive when rewarding ghost caps.", _, true, 0.0, true, 1.0);
     g_cvGhostReward = CreateConVar("sm_nt_wincond_ghost_reward", "0", "Determines how much xp to reward for a ghost cap.", _, true, 0.0); 
     g_cvGhostRewardDead = CreateConVar("sm_nt_wincond_ghost_reward_dead", "0", "Whether dead players should receive the ghost cap reward.", _, true, 0.0, true, 1.0);
+    g_cvGhostHoldReward = CreateConVar("sm_nt_wincond_ghost_hold_reward", "0", "Whether the ghost holder should get an extra 1 xp on an elimination win for their team.", _, true, 0.0, true, 1.0);
 
     AutoExecConfig();
 }
@@ -171,7 +173,7 @@ void RewardWin(int team, bool ghostCapped = false) {
                     if (g_cvSurvivorBonus.BoolValue && !IsPlayerDead(i)) {
                         xp++; // +1 for staying alive
                     }
-                    if (IsPlayerCarryingGhost(i)) {
+                    if (g_cvGhostHoldReward.BoolValue && IsPlayerCarryingGhost(i)) {
                         xp++; // +1 for carrying ghost
                     }
                 }
