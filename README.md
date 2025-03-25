@@ -36,7 +36,15 @@ Whether dead players should receive the ghost cap reward.
 0 = Disabled (Default)  
 1 = Enabled  
 
+_sm_nt_wincond_ghost_hold_reward_  
+Whether the ghost holder should get an extra 1 xp on an elimination win for their team.  
+0 = Disabled (Default)  
+1 = Enabled  
+
 ## Changelog
+
+### 0.0.12
+* Added new cvar to determine whether or not to award an extra xp point to the ghost holder when their team wins by elimination.
 
 ### 0.0.11
 * Fix issue where tiebreaker would always go to Jinrai in ATK mode.
