@@ -39,7 +39,7 @@ Whether dead players should receive the ghost cap reward.
 _sm_nt_wincond_ghost_hold_reward_  
 Whether the ghost holder should get an extra 1 xp on an elimination win for their team.  
 0 = Disabled (Default)  
-1 = Enabled  
+1 = Enabled (Vanilla)  
 
 _sm_nt_wincond_round_end_logging_  
 Whether round end result is logged.  
