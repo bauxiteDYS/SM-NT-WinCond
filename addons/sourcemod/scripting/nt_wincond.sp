@@ -123,7 +123,7 @@ void EndRound(int gameHud) {
     GameRules_SetProp("m_iGameState", GAMESTATE_ROUND_OVER);
     GameRules_SetPropFloat("m_fRoundTimeLeft", 15.0);
 	
-    if(g_cvRoundEndLogging.BoolValue) {
+    if (g_cvRoundEndLogging.BoolValue) {
         if(gameHud == GAMEHUD_TIE) {
             LogToGame("[WinCond] The round was a Tie");
         } else {
