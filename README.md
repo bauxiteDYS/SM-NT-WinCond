@@ -41,7 +41,15 @@ Whether the ghost holder should get an extra 1 xp on an elimination win for thei
 0 = Disabled (Default)  
 1 = Enabled  
 
+_sm_nt_wincond_round_end_logging_  
+Whether round end result is logged.  
+0 = Disabled  
+1 = Enabled (Default) 
+
 ## Changelog
+
+### 0.0.13
+* Added new cvar to determine whether round end result is logged, such as Tie, NSF win or Jinrai win to assist in log parsing.
 
 ### 0.0.12
 * Added new cvar to determine whether or not to award an extra xp point to the ghost holder when their team wins by elimination.
