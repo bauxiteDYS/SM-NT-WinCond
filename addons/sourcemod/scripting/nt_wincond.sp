@@ -5,7 +5,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define PLUGIN_VERSION "0.0.12"
+#define PLUGIN_VERSION "0.0.13"
 
 #define GAMEHUD_TIE 3
 #define GAMEHUD_JINRAI 4
@@ -31,6 +31,7 @@ ConVar g_cvSurvivorBonus;
 ConVar g_cvGhostReward;
 ConVar g_cvGhostRewardDead;
 ConVar g_cvGhostHoldReward;
+ConVar g_cvRoundEndLogging;
 
 ConVar g_cvHalfTimeEnabled;
 ConVar g_cvRoundLimit;
@@ -53,7 +54,8 @@ public void OnPluginStart() {
     g_cvGhostReward = CreateConVar("sm_nt_wincond_ghost_reward", "0", "Determines how much xp to reward for a ghost cap.", _, true, 0.0); 
     g_cvGhostRewardDead = CreateConVar("sm_nt_wincond_ghost_reward_dead", "0", "Whether dead players should receive the ghost cap reward.", _, true, 0.0, true, 1.0);
     g_cvGhostHoldReward = CreateConVar("sm_nt_wincond_ghost_hold_reward", "0", "Whether the ghost holder should get an extra 1 xp on an elimination win for their team.", _, true, 0.0, true, 1.0);
-
+    g_cvRoundEndLogging = CreateConVar("sm_nt_wincond_round_end_logging", "1", "Whether round end result is logged.", _, true, 0.0, true, 1.0);
+	
     AutoExecConfig();
 }
 
@@ -120,6 +122,14 @@ void EndRound(int gameHud) {
     GameRules_SetProp("m_iGameHud", gameHud);
     GameRules_SetProp("m_iGameState", GAMESTATE_ROUND_OVER);
     GameRules_SetPropFloat("m_fRoundTimeLeft", 15.0);
+	
+    if(g_cvRoundEndLogging.BoolValue) {
+        if(gameHud == GAMEHUD_TIE) {
+            LogToGame("[WinCond] The round was a Tie");
+        } else {
+            LogToGame("[WinCond] Team %s has won the round", gameHud == GAMEHUD_JINRAI ? "Jinrai" : "NSF");
+        }
+    }
 }
 
 int RankUp(int xp) {
